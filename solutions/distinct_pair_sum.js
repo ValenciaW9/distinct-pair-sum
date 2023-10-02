@@ -1,18 +1,19 @@
-function distinctPairSum(arr, k) {
-  const pairs = {};
+function consecutivePairs(arr, k) {
+  let result = [];
+  for (let i = 0; i < arr.length - 1; i++) {
+  if (arr[i] + arr[i+1] === k && !result.some(pair => pair[0] == arr[i] && pair[1] == arr[i+1])) {
+  result.push([arr[i], arr[i+1]]);
+  }
+  }
+  return result;
+  }
+  
+  // Test Cases
+  console.log(consecutivePairs([0, 1, 1, 2, 0, 1, 1], 2)); // Output: [[1, 1], [2, 0]]
+  console.log(consecutivePairs([3, 4, 2, 1, 5, 2, 8, 2], 10)); // Output: [[2, 8]]
+  
 
-  arr.slice(0, -1).forEach((num, idx) => {
-    const nextValue = arr[idx + 1];
 
-    if (num + nextValue === k && 
-      pairs[num] === undefined && 
-      pairs[nextValue] === undefined) {
-        pairs[num] = [num, nextValue];
-    }
-  });
-
-  return Object.values(pairs);
-}
 
 if (require.main === module) {
   // add your own tests in here
@@ -55,7 +56,12 @@ module.exports = distinctPairSum;
 // Please add your pseudocode to this file
 /***********************************************************************************
  * initialize empty object called pairs
- * 
+ * nitialize an empty result list.
+Iterate through the input array from index 0 to n-2.
+Check if the sum of the current number and the next number is equal to the target value.
+If it is, check if the pair [current number, next number] is already present in the result list.
+If it is not, add the pair to the result list.
+Return the result list.
  * iterate over array up to second to last item:
  *  if current item and next item are not keys in pairs and they sum to k:
  *    add current item as key in pairs with value of [current item, next item]
